@@ -17,7 +17,7 @@ or...
 import { login, getAccount, ... } from 'stakecube-node-sdk';
 ```
 
-After installing the module, grab your **API Key** and **Secret** from your StakeCube account interface, to use private APIs with this package, you'll have to call the below method:
+After installing the module, grab your **API Key** and **Secret** from your [StakeCube API](https://stakecube.net/app/profile/api-keys) interface, to use private APIs with this package, you'll have to call the below method:
 ```js
 // Example code
 let SC = require('stakecube-node-sdk');
