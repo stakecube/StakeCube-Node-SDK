@@ -42,7 +42,7 @@ Parameter | Description | Example
 
 Example:
 ```js
-SC.login("api_key", "secret"); // 'true'
+SC.login("api_key", "secret"); // result: 'true'
 ```
 
 ### Get Arbitrage Info
@@ -55,7 +55,7 @@ Parameter | Description | Example
 
 Example:
 ```js
-SC.getArbitrageInfo("SCC").then(res => { console.log(res) }); // { 'coingecko-provided market info object' }
+SC.getArbitrageInfo("SCC").then(res => { console.log(res) }); // result: { 'coingecko-provided market info object' }
 ```
 
 ### Get Markets
@@ -101,9 +101,26 @@ SC.getRatelimits().then(res => { console.log(res) }); // result: [ { rate_limit_
 
 ---
 
+### Get Trades
+> Returns the last trades of a specified market pair, optionally with a custom results limit.
+
+- Method: `getTrades(market);`
+
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) market | the chosen market pair | SCC_BTC
+(optional) limit | the maximum returned trades | 100
+
+Example:
+```js
+SC.getTrades("SCC_BTC").then(res => { console.log(res) }); // result: [ { direction: "BUY", amount: "1.23", price: ... } ... ]
+```
+
+---
+
 ### Get Orderbook
 > Gets the orderbook of a chosen market, optionally a specified side, but by default will load both orderbook sides.
-- Method: `getOrderbook("SCC_BTC");`
+- Method: `getOrderbook(market);`
 
 Parameter | Description | Example
 ------------ | ------------- | -------------
@@ -117,4 +134,34 @@ SC.getOrderbook("SCC_BTC").then(res => { console.log(res) }); // result: { asks:
 
 ---
 
-... more docs coming soon!
+## Private APIs
+
+These APIs require you to be logged-in with an API key of sufficient permissions to perform the private action, for example, withdrawals will work on any key with the Withdrawals Permission enabled, order placing/cancelling will work on a key with "Full Permissions", but will not work on a "Read only" key, be aware of this and customize your keys accordingly for security!
+
+To login, please use the `login(key, secret);` method provided by the SDK, and key/secret provided by the StakeCube v3 [API Dashboard](https://stakecube.net/app/profile/api-keys).
+
+---
+
+### Get Account (Auth Required)
+> Returns general information about your StakeCube account, including wallets, balances, fee-rate in percentage and your account username.
+- Method: `getAccount();`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.getAccount().then(res => { console.log(res) }); // result: { user: "JSKitty", exchangeFee: 0.05, wallets: [ ... ], ... }
+```
+
+---
+
+### Withdraw (Auth Required)
+> Creates a withdrawal request with a specified coin, address and amount.
+- Method: `withdraw(ticker, address, amount);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.withdraw("SCC", "sWdSgX...", 1.23).then(res => { console.log(res) }); // result: { success: true }
+```
