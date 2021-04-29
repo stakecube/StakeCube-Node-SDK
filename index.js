@@ -73,6 +73,35 @@ async function getOhlcData(market, interval) {
     }
 }
 
+async function getMineCubeInfo() {
+    try {
+        let res = await superagent
+        .get(ENDPOINT_BASE + '/minecube/info')
+        .set('User-Agent', 'StakeCube Node.js Library')
+        .send();
+        return res.body;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getMineCubeMiners(coin) {
+    let selectedCoin = "";
+    // Verify the option and use empty ("") if no coin is specified
+    let allowedOptions = ["BTC", "DASH", "ETH", "LTC"];
+    if ((coin && coin.length > 0) && allowedOptions.includes(coin.toUpperCase()))
+        selectedCoin = coin;
+    try {
+        let res = await superagent
+        .get(ENDPOINT_BASE + '/minecube/miner?coin=' + selectedCoin)
+        .set('User-Agent', 'StakeCube Node.js Library')
+        .send();
+        return res.body;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getRatelimits() {
     try {
         let res = await superagent
@@ -278,7 +307,7 @@ module.exports = {
     // Built-in custom calls
     login,
     // Public API calls (no auth)
-    getArbitrageInfo, getMarkets, getOhlcData, getRatelimits, getTrades, getOrderbook,
+    getArbitrageInfo, getMarkets, getOhlcData, getMineCubeInfo, getMineCubeMiners, getRatelimits, getTrades, getOrderbook,
     // Private API calls (key + secret required via 'login' method)
     getAccount, withdraw, getOpenOrders, getMyTrades, getOrderHistory, postOrder, cancel, cancelAll
 };

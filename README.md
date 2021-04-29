@@ -90,6 +90,28 @@ SC.getOhlcData("SCC_BTC", "1d").then(res => { console.log(res) }); // result: { 
 
 ---
 
+### Get MineCube Info
+> Gets the current real-time info for MineCube, such as total and available workers, the price of workers, and the payouts-in-progress status.
+- Method: `getMineCubeInfo();`
+
+Example:
+```js
+SC.getMineCubeInfo().then(res => { console.log(res) }); // result: { totalWorker: 123, workerAvailable: 100, ... }
+```
+
+---
+
+### Get MineCube Miners
+> Gets a list of all Miners belonging to MineCube, you may optionally specify a coin to see miners for only that coin, such as 'ETH' which uses AMD GPUs, or 'DASH' which uses StrongU ASICs.
+- Method: `getMineCubeMiners(coin);`
+
+Example:
+```js
+SC.getMineCubeMiners().then(res => { console.log(res) }); // result: { BTC: { minerCount: 200, miner: [ ... ], ... }, DASH: ...  }
+```
+
+---
+
 ### Get Rate Limits
 > Gets the current global StakeCube rate-limits for APIs.
 - Method: `getRatelimits();`
