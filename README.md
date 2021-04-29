@@ -45,6 +45,8 @@ Example:
 SC.login("api_key", "secret"); // result: 'true'
 ```
 
+---
+
 ### Get Arbitrage Info
 > Gets arbitrage information for a chosen coin ticker.
 - Method: `getArbitrageInfo(ticker);`
@@ -57,6 +59,8 @@ Example:
 ```js
 SC.getArbitrageInfo("SCC").then(res => { console.log(res) }); // result: { 'coingecko-provided market info object' }
 ```
+
+---
 
 ### Get Markets
 > Gets a list of all StakeCube markets under the chosen base market, optionally sorted by `volume` or `change`, but by default sorted alphabetically.
@@ -225,4 +229,43 @@ Example:
 ```js
 SC.login("your_key", "your_secret"); // result: true
 SC.getOrderHistory("SCC_BTC").then(res => { console.log(res) }); // result: [ { market: "SCC_BTC", type: "MARKET", side: "BUY", ... }, ... ]
+```
+
+---
+
+### Post Order (Auth Required)
+> Creates an exchange order for the specified market pair, orderbook side, price and amount.
+- Method: `postOrder(market, side, price, amount);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.postOrder("SCC_BTC", "BUY", 0.00002000, 1000).then(res => { console.log(res) }); // result: { orderId: 123, executedAmount: 0, fills: [], ... }
+```
+
+---
+
+### Cancel Order (Auth Required)
+> Cancels an open order by it's orderId
+- Method: `cancel(orderId);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.cancel(123).then(res => { console.log(res) }); // result: { originalAmount: 1000, executedAmount: 0, canceledAmount: 0.02, ... }
+```
+
+---
+
+### Cancel All (Auth Required)
+> Cancels all orders in a specified market pair.
+- Method: `cancelAll(market);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.cancelAll("SCC_BTC").then(res => { console.log(res) }); // result: [ { originalAmount: 1000, executedAmount: 0, canceledAmount: 0.02, ... }, ... ]
 ```
