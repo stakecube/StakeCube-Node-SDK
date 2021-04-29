@@ -178,7 +178,7 @@ async function getOpenOrders() {
 
 
 
-async function myTrades(market, limit = 100) {
+async function getMyTrades(market, limit = 100) {
     if (!isLoggedIn()) throw "You must login to StakeCube with your API KEY and SECRET before sending private requests";
     try {
         // Format the input and craft a HMAC signature
@@ -280,5 +280,5 @@ module.exports = {
     // Public API calls (no auth)
     getArbitrageInfo, getMarkets, getOhlcData, getRatelimits, getTrades, getOrderbook,
     // Private API calls (key + secret required via 'login' method)
-    getAccount, withdraw, getOpenOrders, myTrades, getOrderHistory, postOrder, cancel, cancelAll
+    getAccount, withdraw, getOpenOrders, getMyTrades, getOrderHistory, postOrder, cancel, cancelAll
 };

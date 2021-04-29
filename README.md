@@ -165,3 +165,42 @@ Example:
 SC.login("your_key", "your_secret"); // result: true
 SC.withdraw("SCC", "sWdSgX...", 1.23).then(res => { console.log(res) }); // result: { success: true }
 ```
+
+---
+
+### Get Open Orders (Auth Required)
+> Returns a list of all open orders for all StakeCube Exchange markets.
+- Method: `getOpenOrders();`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.getOpenOrders().then(res => { console.log(res) }); // result: [ { market: "SCC_BTC", id: 123, side: "BUY", ... }, ... ]
+```
+
+---
+
+### Get My Trades (Auth Required)
+> Returns a list of all trades, you can leave the market empty ("") to return all trades, or specify a market such as "SCC_BTC" to return those market orders, you may also specify a limit of the amount of returned trades, of which the default is 100 trades.
+- Method: `getMyTrades(market, limit);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.getMyTrades().then(res => { console.log(res) }); // result: [ { market: "SCC_BTC", id: 123, direction: "BUY", ... }, ... ]
+```
+
+---
+
+### Get Order History (Auth Required)
+> Returns a list of all orders from a specified market such as "SCC_BTC", you may also specify a limit of the amount of returned orders, of which the default is 100 orders.
+- Method: `getOrderHistory(market, limit);`
+
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.getOrderHistory("SCC_BTC").then(res => { console.log(res) }); // result: [ { market: "SCC_BTC", type: "MARKET", side: "BUY", ... }, ... ]
+```
