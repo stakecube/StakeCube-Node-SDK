@@ -303,11 +303,54 @@ async function cancelAll(market) {
     }
 }
 
+async function setMineCubePayoutCoin(coin) {
+    if (!isLoggedIn()) throw "You must login to StakeCube with your API KEY and SECRET before sending private requests";
+    let allowedOptions = ["BTC", "SCC", "DASH", "LTC", "ETH", "DOGE"];
+    if (!allowedOptions.includes(coin.toUpperCase())) throw "Please provide a valid payout coin, pick one of: (" + allowedOptions.join(", ") + ")";
+    try {
+        // Format the input and craft a HMAC signature
+        const input = "target=" + coin.toUpperCase() + "&nonce=" + Date.now();
+        const hmac = HMAC(input);
+
+        // Send the request
+        let res = await superagent
+        .post(ENDPOINT_BASE + '/minecube/setPayoutCoin')
+        .set('X-API-KEY', API_KEY)
+        .set('User-Agent', 'StakeCube Node.js Library')
+        .send(input + "&signature=" + hmac);
+        return res.body;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function buyMineCubeWorkers(method, workers) {
+    if (!isLoggedIn()) throw "You must login to StakeCube with your API KEY and SECRET before sending private requests";
+    let allowedOptions = ["SCC", "CREDITS"];
+    if (!allowedOptions.includes(method.toUpperCase())) throw "Please provide a valid payment method, pick one of: (" + allowedOptions.join(", ") + ")";
+    if (!Number.isSafeInteger(workers)) throw "The 'workers' parameter must be an Integer of the amount of desired workers!";
+    try {
+        // Format the input and craft a HMAC signature
+        const input = "method=" + method.toUpperCase() + "&amount=" + workers + "&nonce=" + Date.now();
+        const hmac = HMAC(input);
+
+        // Send the request
+        let res = await superagent
+        .post(ENDPOINT_BASE + '/minecube/buyWorker')
+        .set('X-API-KEY', API_KEY)
+        .set('User-Agent', 'StakeCube Node.js Library')
+        .send(input + "&signature=" + hmac);
+        return res.body;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     // Built-in custom calls
     login,
     // Public API calls (no auth)
     getArbitrageInfo, getMarkets, getOhlcData, getMineCubeInfo, getMineCubeMiners, getRatelimits, getTrades, getOrderbook,
     // Private API calls (key + secret required via 'login' method)
-    getAccount, withdraw, getOpenOrders, getMyTrades, getOrderHistory, postOrder, cancel, cancelAll
+    getAccount, withdraw, getOpenOrders, getMyTrades, getOrderHistory, postOrder, cancel, cancelAll, setMineCubePayoutCoin, buyMineCubeWorkers
 };

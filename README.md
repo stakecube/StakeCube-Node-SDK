@@ -185,6 +185,11 @@ SC.getAccount().then(res => { console.log(res) }); // result: { user: "JSKitty",
 > Creates a withdrawal request with a specified coin, address and amount.
 - Method: `withdraw(ticker, address, amount);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) ticker | the withdrawal coin | SCC
+(required) address | the withdrawal address | sWdSgX...
+(required) amount | the withdrawal amount | 1.23
 
 Example:
 ```js
@@ -211,6 +216,10 @@ SC.getOpenOrders().then(res => { console.log(res) }); // result: [ { market: "SC
 > Returns a list of all trades, you can leave the market empty ("") to return all trades, or specify a market such as "SCC_BTC" to return those market orders, you may also specify a limit of the amount of returned trades, of which the default is 100 trades.
 - Method: `getMyTrades(market, limit);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(optional) market | the market pair | SCC_BTC
+(optional) limit | the maximum returned trades | 100
 
 Example:
 ```js
@@ -224,6 +233,10 @@ SC.getMyTrades().then(res => { console.log(res) }); // result: [ { market: "SCC_
 > Returns a list of all orders from a specified market such as "SCC_BTC", you may also specify a limit of the amount of returned orders, of which the default is 100 orders.
 - Method: `getOrderHistory(market, limit);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) market | the market pair | SCC_BTC
+(optional) limit | the maximum returned trades | 100
 
 Example:
 ```js
@@ -237,6 +250,12 @@ SC.getOrderHistory("SCC_BTC").then(res => { console.log(res) }); // result: [ { 
 > Creates an exchange order for the specified market pair, orderbook side, price and amount.
 - Method: `postOrder(market, side, price, amount);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) market | the market pair | SCC_BTC
+(required) side | the trade side | BUY
+(required) price | the price in the base coin | 0.00002000 (BTC)
+(required) amount | the amount of the trade coin | 1000 (SCC)
 
 Example:
 ```js
@@ -250,6 +269,9 @@ SC.postOrder("SCC_BTC", "BUY", 0.00002000, 1000).then(res => { console.log(res) 
 > Cancels an open order by it's orderId
 - Method: `cancel(orderId);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) orderId | the ID of your order | 123
 
 Example:
 ```js
@@ -263,9 +285,45 @@ SC.cancel(123).then(res => { console.log(res) }); // result: { originalAmount: 1
 > Cancels all orders in a specified market pair.
 - Method: `cancelAll(market);`
 
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) market | the market pair | SCC_BTC
 
 Example:
 ```js
 SC.login("your_key", "your_secret"); // result: true
 SC.cancelAll("SCC_BTC").then(res => { console.log(res) }); // result: [ { originalAmount: 1000, executedAmount: 0, canceledAmount: 0.02, ... }, ... ]
+```
+
+---
+
+### Set MineCube Payout Coin (Auth Required)
+> Sets a coin as the preferred payout coin to receive upon future MineCube payouts.
+- Method: `setMineCubePayoutCoin(coin);`
+
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) coin | the MineCube payout coin | SCC
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.setMineCubePayoutCoin("SCC").then(res => { console.log(res) }); // result: { success: true, ... }
+```
+
+---
+
+### Buy MineCube Workers (Auth Required)
+> Buys a specified amount of MineCube workers using the chosen payment method.
+- Method: `buyMineCubeWorkers(method, workers);`
+
+Parameter | Description | Example
+------------ | ------------- | -------------
+(required) method | the payment method | `SCC` or `CREDITS`
+(required) workers | the worker quantity | 10
+
+Example:
+```js
+SC.login("your_key", "your_secret"); // result: true
+SC.buyMineCubeWorkers("SCC", 10).then(res => { console.log(res) }); // result: { success: true, ... }
 ```
